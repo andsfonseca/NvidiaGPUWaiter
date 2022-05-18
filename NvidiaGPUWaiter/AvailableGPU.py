@@ -77,7 +77,8 @@ class AvailableGPU:
 
                         line = nextLine()
 
-                    if(condition[1] == "less than" and count < int(condition[2])):
+                    if ((condition[1] == "greater than" and count > int(condition[2])) or
+                        (condition[1] == "less than" and count < int(condition[2]))):
                          return currentGPU
 
                     ##Rollback Line
@@ -85,11 +86,16 @@ class AvailableGPU:
             elif condition[0] == "Available memory":
                 if line.startswith('    FB Memory Usage'):
                     line = nextLine()
+
                     while(line.startswith('        ')):
+
                         if(line.startswith('        Free')):
                             value = int(line.split(": ")[1].split(" ")[0])
-                            if(condition[1] == "less than" and value <  int(condition[2])):
+
+                            if ((condition[1] == "greater than" and value > int(condition[2])) or
+                                (condition[1] == "less than" and value <  int(condition[2]))):
                                 return currentGPU
+
                         line = nextLine()
 
                     ##Rollback Line
