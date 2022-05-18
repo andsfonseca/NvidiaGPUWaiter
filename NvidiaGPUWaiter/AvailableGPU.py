@@ -4,14 +4,35 @@ class AvailableGPU:
     
     @staticmethod
     def __getOutput():
-        sp = subprocess.Popen(['nvidia-smi', '-q'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output = sp.communicate()
-        return output[0].decode("utf-8").splitlines()
+        """Get the output of "nvidia-smi -q". If the service is not found, no value is returned
+
+        Returns:
+            list[str]: Output text.
+        """
+        try:
+            sp = subprocess.Popen(['nvidia-smi', '-q'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            output = sp.communicate()
+            return output[0].decode("utf-8").splitlines()
+        except FileNotFoundError:
+            return None
+        
 
     @staticmethod
     def withCondition(condition = ["any"]):
+        """Retrieve the GPU number that meets the desired conditions. If nvidia-smi is not found the 
+        default return value is 0.
 
+        Parameters:
+            condition (list[str]): Desired conditions.
+
+        Returns:
+            int: GPU number.
+        """
         lines = AvailableGPU.__getOutput()
+
+        if lines is None:
+            return 0
+
         lineSeek = 0
         gpusFound = 0
 
