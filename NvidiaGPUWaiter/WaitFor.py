@@ -1,23 +1,18 @@
-from .AvailableGPU import AvailableGPU
+
 import time
 
-class WaitForGPU(AvailableGPU):
-    
-    @staticmethod
-    def withCondition(condition = ["any"], seconds = 10.0):
-        """Retrieve the GPU number that meets the desired conditions. While not found, the current 
-        thread will wait until the conditions are met. If nvidia-smi is not found the default 
-        return value is 0.
+def WaitFor(method, seconds=10.0):
+    """Put the current thread on hold until the value of the method sent returns a number greater 
+    than or equal to 0. In the case of the GPU, wait until one has the required conditions
 
-        Parameters:
-            condition (list[str]): Desired conditions.
-            seconds (float): seconds to wait.
-        Returns:
-            int: GPU number.
-        """
-        gpu = super(WaitForGPU, WaitForGPU).withCondition(condition)
-        while(gpu == -1):
-            time.sleep(seconds)
-            gpu = super(WaitForGPU, WaitForGPU).withCondition(condition)
-
-        return gpu
+    Parameters:
+        method (function): Method to be tested.
+        seconds (float): seconds to wait.
+    Returns:
+        int: return of the method.
+    """
+    gpu = method()
+    while(gpu == -1):
+        time.sleep(seconds)
+        gpu = method()
+    return gpu

@@ -1,2 +1,3 @@
+import imp
 from .AvailableGPU import AvailableGPU
-from .WaitForGPU import WaitForGPU
+from .WaitFor import WaitFor
