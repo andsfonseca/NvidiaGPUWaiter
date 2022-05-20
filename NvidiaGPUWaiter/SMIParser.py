@@ -22,6 +22,11 @@ class SMIParser:
     
     @staticmethod
     def getGPUs():
+        """Retrieves a list of available GPUs on the system.
+
+         Returns:
+            list[NvidiaGPU]: Gpus list.
+        """
         lines = SMIParser.__getOutput()
 
         if lines is None:
