@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='NvidiaGPUWaiter',
-    version='0.1.3',    
+    version='0.1.4',    
     description='Method to detect idle GPU with certain conditions using nvidia-smi',
     url='https://github.com/andsfonseca/NvidiaGPUWaiter',
     author='Anderson Silva',
